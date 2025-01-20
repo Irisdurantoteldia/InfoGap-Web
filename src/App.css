@@ -1,0 +1,63 @@
+.app-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Quatre columnes per fila */
+  gap: 20px;
+  overflow-y: auto; /* Activa l'scroll si hi ha massa elements */
+  max-height: 80vh; /* Alçada màxima per al contenidor scrolleable */
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.data-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.data-card:hover {
+  transform: scale(1.02); /* Lleuger augment al passar el cursor */
+}
+
+.data-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.data-content {
+  flex: 1;
+}
+
+.data-content h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.data-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
