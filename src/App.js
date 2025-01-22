@@ -1,100 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db, auth } from './Firebase/FirebaseConfig';
-import { onAuthStateChanged } from 'firebase/auth';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import FSection from './FSection';
+import Login from './screens/Login';  // Assegura't que la ruta sigui correcta
+import All from './screens/All';  // El component que es renderitza a la ruta /all
+import Account from './screens/Account';  // El component que es renderitza a la ruta /account
+import People from './screens/People';  // El component que es renderitza a la ruta /account
+import DetailPage from "./screens/DetailPage";
+import UserDetails from './screens/UserDetails';
 
-const AllDataPage = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Comprova l'estat d'autenticació
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setIsAuthenticated(!!user);
-    });
-  }, []);
 
-  // Carrega dades de Firebase
-  useEffect(() => {
-    if (isAuthenticated) {
-      const fetchData = async () => {
-        try {
-          const querySnapshot = await getDocs(collection(db, 'Preguntes'));
-          const dataList = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setData(dataList);
-        } catch (error) {
-          console.error('Error al carregar les dades: ', error);
-        } finally {
-          setLoading(false);
-        }
-      };
 
-      fetchData();
-    }
-  }, [isAuthenticated]);
+export default function App() {
+  const [currentSection, setCurrentSection] = React.useState(1);
 
-  if (!isAuthenticated) {
-    return <p>Accés denegat. Necessites estar autenticat.</p>;
-  }
-
-  if (loading) {
-    return <p>Carregant dades...</p>;
-  }
+  const handlePress = (id) => {
+    setCurrentSection(id);
+  };
 
   return (
-    <div style={styles.container}>
-      <h1>Dades de la Col·lecció</h1>
-      {data.length === 0 ? (
-        <p>No hi ha dades disponibles.</p>
-      ) : (
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nom</th>
-              <th>Descripció</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.nom || 'Sense nom'}</td>
-                <td>{item.descripcio || 'Sense descripció'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+    <Router>
+      {/* Mostrem la secció de botons (FSection) */}
+      <FSection currentSection={currentSection} onPress={handlePress} />
+
+      {/* Configuració de les rutes */}
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/all" element={<All />} /> {/* Ruta per la pàgina All */}
+        <Route path="/account" element={<Account />} />
+        <Route path="/people" element={<People />} />
+        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/user/:userId" element={<UserDetails />} /> {/* Ruta per veure els detalls de l'usuari */}
+
+        
+      </Routes>
+    </Router>
   );
-};
-
-// Estils en línia
-const styles = {
-  container: {
-    margin: '20px',
-    fontFamily: 'Arial, sans-serif',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    marginTop: '20px',
-  },
-  th: {
-    border: '1px solid #ddd',
-    padding: '8px',
-    textAlign: 'left',
-    backgroundColor: '#f4f4f4',
-  },
-  td: {
-    border: '1px solid #ddd',
-    padding: '8px',
-  },
-};
-
-export default AllDataPage;
+}

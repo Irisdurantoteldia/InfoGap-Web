@@ -1,55 +1,56 @@
 import React from 'react';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { FaCircle, FaRegCircle } from 'react-icons/fa'; // Exemple d'icones (pots ajustar-ho segons les necessitats)
 
 export default function FButton({ 
-    selectedIcon,
-    unselectedIcon,
+    selectedIcon = <FaCircle />, // Icona seleccionada
+    unselectedIcon = <FaRegCircle />, // Icona no seleccionada
     id,
     isSelected,
     onPress,
     isCircular = false // Propietat per determinar si és circular
 }) {
     return (
-        <TouchableOpacity onPress={() => onPress(id)} style={styles.buttonContainer}>
-            <View style={[styles.iconContainer, isCircular && styles.circular]}>
-                <Icon
-                    name={isSelected ? selectedIcon : unselectedIcon}
-                    size={isCircular ? 40 : 30} // Mida de l'icona
-                    style={styles.icon}
-                />
-                {isSelected && <View style={styles.selectedLine} />}
-            </View>
-        </TouchableOpacity>
+        <div 
+            onClick={() => onPress(id)} 
+            style={{ 
+                ...styles.buttonContainer, 
+                ...(isCircular && styles.circular) 
+            }}
+        >
+            <div style={styles.iconContainer}>
+                {isSelected ? selectedIcon : unselectedIcon}
+                {isSelected && <div style={styles.selectedLine} />}
+            </div>
+        </div>
     );
 }
 
-const styles = StyleSheet.create({
+const styles = {
     buttonContainer: {
+        display: 'flex',
         alignItems: 'center', // Centrar el botó horitzontalment
         justifyContent: 'center', // Centrar el contingut del botó dins
         flex: 1,
+        cursor: 'pointer', // Mostrar la mà quan es passa per sobre
     },
     iconContainer: {
+        display: 'flex',
         alignItems: 'center',
         justifyContent: 'center', // Centrar l'icona dins del contenidor
-        paddingBottom: 10, // Aixeca lleugerament els ícons si cal
+        paddingBottom: '10px', // Aixeca lleugerament els ícons si cal
     },
     circular: {
         backgroundColor: '#FFF', // Fons blanc per als botons circulars
-        borderRadius: 50, // Fa que el botó sigui circular
-        padding: 10,
+        borderRadius: '50%', // Fa que el botó sigui circular
+        padding: '10px',
         justifyContent: 'center',
         alignItems: 'center',
-        elevation: 5, // Ombra per fer-lo més destacat
-    },
-    icon: {
-        margin: 5,
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', // Ombra per fer-lo més destacat
     },
     selectedLine: {
-        height: 2,
+        height: '2px',
         backgroundColor: 'black', // Línia negra sota l'icona seleccionada
-        width: 50,
-        marginTop: 5,
+        width: '50px',
+        marginTop: '5px',
     },
-});
+};

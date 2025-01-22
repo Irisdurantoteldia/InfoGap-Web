@@ -1,51 +1,42 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import FBSuperior from './FBSuperior'; // Componente para los botones superiores
+import { Link } from 'react-router-dom'; // Usamos Link de react-router-dom para la navegación
+import { FaArrowLeft, FaSearch } from 'react-icons/fa'; // Para los íconos
 
 export default function FSuperior({ currentSection, onPress }) {
   return (
-    <View style={styles.container}>
-      <FBSuperior 
-        selectedIcon="arrow-left" 
-        unselectedIcon="arrow-left" 
-        id={1} 
-        onPress={onPress} 
-        isSelected={currentSection == 1} 
-        color="#c5bbbb" // Color deseado
-      />
+    <div style={styles.container}>
+      <Link to="/" style={styles.iconContainer} onClick={() => onPress(1)}>
+        <FaArrowLeft color={currentSection === 1 ? '#c5bbbb' : 'black'} />
+      </Link>
 
-      <Text style={styles.title}>InfoGap</Text>
+      <h1 style={styles.title}>InfoGap</h1>
 
-      <FBSuperior 
-        selectedIcon="magnify" 
-        unselectedIcon="magnify" 
-        id={2} 
-        onPress={onPress} 
-        isSelected={currentSection == 2} 
-        color="#c5bbbb" // Color deseado
-      />
-    </View>
+      <Link to="/search" style={styles.iconContainer} onClick={() => onPress(2)}>
+        <FaSearch color={currentSection === 2 ? '#c5bbbb' : 'black'} />
+      </Link>
+    </div>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    padding: '10px 20px',
     backgroundColor: '#c5bbbb',
-    height: 65,
+    height: '65px',
   },
   title: {
-    fontSize: 20,
+    fontSize: '20px',
     fontWeight: 'bold',
     color: 'black',
-    marginHorizontal: 50, // Espacio horizontal alrededor del título
+    marginHorizontal: '50px', // Espacio horizontal alrededor del título
   },
   iconContainer: {
-    paddingTop: 2,
-    marginHorizontal: 30, // Espacio horizontal entre las íconos
+    paddingTop: '2px',
+    marginHorizontal: '30px', // Espacio horizontal entre las íconos
+    cursor: 'pointer',
   },
-});
+};

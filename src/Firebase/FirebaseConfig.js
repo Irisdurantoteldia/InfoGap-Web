@@ -1,7 +1,7 @@
-// Importarem les funcions necessàries des del SDK de Firebase
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBxvbwFIkeNyQ5k8SIAGYJ0UPraGCpS4bA",
@@ -12,13 +12,7 @@ const firebaseConfig = {
   appId: "1:432531775221:web:88b519f85cf34e64c16fbc",
   measurementId: "G-GP7QR71Q3S"
 };
-
-// Inicialitzarem l'aplicació de Firebase
 const app = initializeApp(firebaseConfig);
-
-// Inicialitzarem els serveis d'Autenticació i Firestore
-const auth = getAuth(app); // Crearem el servei d'autenticació
-const db = getFirestore(app); // Crearem el servei de base de dades Firestore
-
-// Exportarem els serveis per utilitzar-los en altres parts de l'aplicació
-export { auth, db };
+export const auth = getAuth(app);
+export const storage = getStorage(app);
+export const db = getFirestore(app);
