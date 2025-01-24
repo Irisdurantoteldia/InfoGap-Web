@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../Firebase/FirebaseConfig';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import fondo from '../assets/fondo.png';
-import logo from '../assets/logo.png';  // Importa el teu logo
+import logo from '../assets/logo.png';  // Import the logo
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -17,9 +17,17 @@ export default function Login() {
       setErrorMsg('Please enter your email and password.');
       return;
     }
+
+    // Check if email contains '@amin' between '@' and '.'
+    if (!email.includes('@admin.') || email.split('@')[1].split('.')[0] !== 'admin') {
+      setErrorMsg('Email must contain "@admin" between "@" and "."');
+      return;
+    }
+
     setErrorMsg(null);
 
     try {
+      // Attempt to sign in with Firebase
       await signInWithEmailAndPassword(auth, email, password);
       setTimeout(() => navigate('/all'), 1); // Redirect to /all route
     } catch (error) {
@@ -57,7 +65,7 @@ export default function Login() {
   return (
     <div style={styles.background}>
       <div style={styles.loginBox}>
-        <img src={logo} alt="Logo" style={styles.logo} />  {/* Aquí afegim el logo */}
+        <img src={logo} alt="Logo" style={styles.logo} />
         <h1 style={styles.title}>Welcome to Info Gap!</h1>
 
         {errorMsg && <p style={styles.errorText}>{errorMsg}</p>}
@@ -109,7 +117,7 @@ const styles = {
   loginBox: {
     backgroundColor: '#fff',
     borderRadius: '10px',
-    padding: '40px', 
+    padding: '40px',
     width: '30%',
     maxWidth: '350px',
     minHeight: '270px',
@@ -117,13 +125,13 @@ const styles = {
     textAlign: 'left',
   },
   logo: {
-    width: '60px',  // Mida reduïda del logo
+    width: '60px',  // Reduced size for the logo
     height: 'auto',
-    marginBottom: '20px',  // Espai entre el logo i el títol
+    marginBottom: '20px',  // Space between the logo and the title
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
-    filter: 'grayscale(100%)',  // Filtre per fer el logo negre
+    filter: 'grayscale(100%)',  // Filter to make the logo black
   },
   title: {
     fontSize: '22px',
