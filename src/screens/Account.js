@@ -125,7 +125,7 @@ export default function Account() {
 
           <div style={styles.fieldContainer}>
             <span style={styles.fieldLabel}>User Type:</span>
-            <span style={styles.usernameText}>{userType}</span>
+            <span style={styles.usernameText}>Admin</span>
           </div>
 
           <div style={styles.fieldContainer}>

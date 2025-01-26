@@ -42,20 +42,20 @@ export default function DetailPage() {
         Tornar
       </button></center>
 
-      <h1 style={styles.title}>{item.Title}</h1>
-      <p style={styles.date}>{item.Date || "No date"}</p>
+      <h1 style={styles.title}>{item.title}</h1>
+      <p style={styles.date}>{item.date || "No date"}</p>
 
       <div style={styles.imageWrapper}>
         <img
-          src={item.Image_URL || defaultImage}
-          alt={item.Title}
+          src={item.imageUrl || defaultImage}
+          alt={item.title}
           style={styles.image}
         />
       </div>
 
-      <p style={styles.description}>{item.Description}</p>
-      <p style={styles.likes}>Likes: {item.Likes || 0}</p>
-      <p style={styles.location}>Location: {item.Location || "Barcelona-Catalonia"}</p>
+      <p style={styles.description}>{item.description}</p>
+      <p style={styles.likes}>Likes: {item.likes || 0}</p>
+      <p style={styles.location}>Location: {item.location || "Barcelona-Catalonia"}</p>
     </div>
   );
 }

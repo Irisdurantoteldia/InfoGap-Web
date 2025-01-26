@@ -13,7 +13,7 @@ export default function All() {
 
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "Preguntes"));
+      const querySnapshot = await getDocs(collection(db, "Preguntas"));
       const dataFromFirestore = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -62,7 +62,7 @@ export default function All() {
     if (confirmation) {
       try {
         await Promise.all(
-          selectedItems.map((id) => deleteDoc(doc(db, "Preguntes", id)))
+          selectedItems.map((id) => deleteDoc(doc(db, "Preguntas", id)))
         );
         alert("The selected items have been deleted.");
         setSelectedItems([]); // Reset the selection
@@ -79,15 +79,21 @@ export default function All() {
       <div style={styles.topBar}>
         <div
           style={{ ...styles.navButton, color: "#B22222" }}
-          onClick={() => navigate('/all')}
+          onClick={() => navigate("/all")}
         >
           <FaHome size={40} />
         </div>
         <h1 style={styles.title}>Database Content</h1>
-        <div style={{ ...styles.navButton, marginRight: "10px" }} onClick={() => navigate("/people")}>
+        <div
+          style={{ ...styles.navButton, marginRight: "10px" }}
+          onClick={() => navigate("/people")}
+        >
           <FaUsers size={50} />
         </div>
-        <div style={{ ...styles.navButton, marginLeft: "5px" }} onClick={() => navigate("/account")}>
+        <div
+          style={{ ...styles.navButton, marginLeft: "5px" }}
+          onClick={() => navigate("/account")}
+        >
           <FaUser size={40} />
         </div>
       </div>
@@ -109,7 +115,9 @@ export default function All() {
         <div style={styles.listContainer}>
           {data
             .filter((item) =>
-              item.Title.toLowerCase().includes(searchQuery.toLowerCase())
+              (item?.title || "").toLowerCase().includes(
+                searchQuery.toLowerCase()
+              )
             )
             .map((item) => (
               <div
@@ -122,18 +130,22 @@ export default function All() {
               >
                 <div style={styles.cardImage}>
                   <img
-                    src={item.Image_URL || defaultImage}
+                    src={item.imageUrl || defaultImage}
                     alt="Card"
                     style={styles.cardImageStyle}
                   />
                 </div>
-                <h3 style={styles.cardTitle}>{item.Title}</h3>
-                <p style={styles.cardDescription}>{item.Description}</p>
+                <h3 style={styles.cardTitle}>{item.title}</h3>
+                <p style={styles.cardDescription}>{item.description}</p>
                 <div style={styles.likesSection}>
                   <FaHeart size={20} color="#555" />
-                  <span style={styles.likesText}>{item.Likes || 0} Likes</span>
+                  <span style={styles.likesText}>
+                    {item.likes || 0} Likes
+                  </span>
                 </div>
-                <p style={styles.locationText}>{item.location || "Location: Barcelona-Catalonia"}</p>
+                <p style={styles.locationText}>
+                  {"Location: " + item.location || "Location: Barcelona-Catalonia"}
+                </p>
               </div>
             ))}
         </div>
@@ -154,7 +166,7 @@ export default function All() {
                 checked={isSelected(item.id)}
                 onChange={() => handleSelectChange(item.id)}
               />
-              <label style={styles.checkboxLabel}>{item.Title}</label>
+              <label style={styles.checkboxLabel}>{item.title}</label>
             </div>
           ))}
           <button style={styles.deleteButton} onClick={handleDeleteSelected}>
